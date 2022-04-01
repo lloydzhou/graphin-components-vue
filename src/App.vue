@@ -7,6 +7,7 @@
     <ActivateRelations />
     <FontPaint />
     <MiniMap />
+    <FishEye />
   </Graphin>
 </template>
 
@@ -14,6 +15,7 @@
 // @ts-nocheck
 import { Options, Vue } from 'vue-class-component';
 import MiniMap from './MiniMap';
+import FishEye from './FishEye';
 import Graphin, { Utils, Behaviors } from 'antv-graphin-vue'
 import 'antv-graphin-vue/dist/index.css'
 
@@ -22,8 +24,9 @@ const { DragCanvas, ZoomCanvas, DragNode, Hoverable, ActivateRelations, FontPain
 @Options({
   components: {
     Graphin,
-    MiniMap,
     DragCanvas, ZoomCanvas, DragNode, Hoverable, ActivateRelations, FontPaint,
+    MiniMap,
+    FishEye,
   },
 })
 export default class App extends Vue {
