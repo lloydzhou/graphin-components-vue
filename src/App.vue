@@ -7,7 +7,6 @@
     <ActivateRelations />
     <FontPaint />
     <MiniMap />
-    <FishEye />
   </Graphin>
 </template>
 
@@ -34,6 +33,7 @@ export default class App extends Vue {
   layout: { type: 'graphin-force' }
   created() {
     this.data = Utils.mock(5).circle().graphin()
+    this.layout = { type: 'graphin-force' }
   }
 }
 </script>

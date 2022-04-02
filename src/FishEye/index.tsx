@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { G6, GraphinContext } from 'antv-graphin-vue';
-import { defineComponent, CSSProperties, onMounted, onUnmounted, ref } from 'vue';
+import { defineComponent, onMounted, onUnmounted } from 'vue';
 
 const { useContext, contextSymbol } = GraphinContext
 
@@ -40,17 +40,18 @@ export interface FishEyeProps {
 }
 
 
-const FishEye = defineComponent({
+const FishEye = defineComponent<FishEyeProps>({
+  name: 'FishEye',
   props: {
     handleEscListener: {
-      type: Function
+      type: Function as FishEyeProps['handleEscListener']
     },
     visible: {
-      type: Boolean,
+      type: Boolean as FishEyeProps['visible'],
       default: () => true,
     },
     options: {
-      type: Object,
+      type: Object as FishEyeProps['options'],
       default: () => ({})
     }
   },

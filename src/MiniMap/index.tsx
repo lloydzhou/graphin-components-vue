@@ -48,17 +48,18 @@ let containerRef: null | HTMLDivElement = null;
 const containerHeight = 120;
 
 const MiniMap = defineComponent({
+  name: 'MiniMap',
   props: {
     style: {
-      type: Object,
+      type: Object as MiniMapProps['style'],
       default: () => ({}),
     },
     visible: {
-      type: Boolean,
+      type: Boolean as MiniMapProps['visible'],
       default: () => false,
     },
     options: {
-      type: Object,
+      type: Object as MiniMapProps['options'],
       default: () => ({})
     }
   },
