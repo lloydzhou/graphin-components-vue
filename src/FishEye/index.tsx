@@ -40,7 +40,7 @@ export interface FishEyeProps {
 }
 
 
-const FishEye = defineComponent<FishEyeProps>({
+const FishEye = defineComponent({
   name: 'FishEye',
   props: {
     handleEscListener: {

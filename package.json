@@ -1,6 +1,6 @@
 {
   "name": "antv-graphin-components-vue",
-  "version": "0.0.1",
+  "version": "0.0.1-beta",
   "description": "Components for graphin",
   "scripts": {
     "prepare": "install-peers",

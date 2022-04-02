@@ -1,11 +1,30 @@
 <template>
   <Graphin :data="data" :layout="layout">
+    <DragCombo />
     <DragCanvas />
     <ZoomCanvas />
     <DragNode />
     <Hoverable />
     <ActivateRelations />
     <FontPaint />
+    <Combo :options="comboOptions" />
+    <ContextMenu bindType="canvas">
+      <Menu bindType="canvas">
+        <MenuItem :onClick="handleClear">清除画布</MenuItem>
+        <MenuItem :onClick="handleStopLayout">停止布局</MenuItem>
+        <MenuItem :onClick="handleDownload">下载画布</MenuItem>
+      </Menu>
+    </ContextMenu>
+    <ContextMenu>
+      <Menu :options="contextMenu" :onChange="onContextMenuChange" bindType="node">
+      </Menu>
+    </ContextMenu>
+    <ContextMenu bindType="edge">
+      <Menu bindType="edge">
+        <MenuItem :onClick="handleClear">清除</MenuItem>
+        <MenuItem :onClick="handleDownload">编辑</MenuItem>
+      </Menu>
+    </ContextMenu>
     <MiniMap />
   </Graphin>
 </template>
@@ -13,27 +32,82 @@
 <script lang="ts">
 // @ts-nocheck
 import { Options, Vue } from 'vue-class-component';
-import MiniMap from './MiniMap';
-import FishEye from './FishEye';
 import Graphin, { Utils, Behaviors } from 'antv-graphin-vue'
 import 'antv-graphin-vue/dist/index.css'
+import {
+  Combo,
+  ContextMenu,
+  MiniMap,
+  FishEye,
+} from './index'
 
-const { DragCanvas, ZoomCanvas, DragNode, Hoverable, ActivateRelations, FontPaint } = Behaviors
+const { Menu } = ContextMenu
+const MenuItem = Menu.Item
+const { DragCombo, DragCanvas, ZoomCanvas, DragNode, Hoverable, ActivateRelations, FontPaint } = Behaviors
 
 @Options({
   components: {
     Graphin,
-    DragCanvas, ZoomCanvas, DragNode, Hoverable, ActivateRelations, FontPaint,
+    DragCombo, DragCanvas, ZoomCanvas, DragNode, Hoverable, ActivateRelations, FontPaint,
+    Combo,
+    ContextMenu, Menu, MenuItem,
     MiniMap,
     FishEye,
   },
 })
 export default class App extends Vue {
   data = {nodes: [], edges: []}
-  layout: { type: 'graphin-force' }
+  layout = { type: 'graphin-force' }
+  comboOptions = [
+    {
+      members: ['node-1', 'node-2', 'node-9']
+    },
+    {
+      members: ['node-3', 'node-4'],
+      type: 'circle',
+      padding: 10,
+      style: {
+        fill: 'lightgreen',
+        stroke: 'green',
+      },
+    }
+  ]
+  contextMenu = [
+    {
+      key: 'tag',
+      name: '打标'
+    },
+    {
+      key: 'delete',
+      name: '删除'
+    },
+    {
+      key: 'expand',
+      name: '扩散'
+    },
+  ]
+
   created() {
-    this.data = Utils.mock(5).circle().graphin()
-    this.layout = { type: 'graphin-force' }
+    this.data = Utils.mock(10).circle().graphin()
+    // this.layout = { type: 'graphin-force' }
+    this.layout = {
+      type: 'graphin-force',
+      preset: {
+        type: 'grid',
+      }
+    }
+  }
+  onContextMenuChange(e, item) {
+    console.log('onContextMenuChange', e, item)
+  }
+  handleClear(e) {
+    console.log('handleClear', e)
+  }
+  handleStopLayout(e) {
+    console.log('handleStopLayout', e)
+  }
+  handleDownload(e) {
+    console.log('handleDownload', e)
   }
 }
 </script>

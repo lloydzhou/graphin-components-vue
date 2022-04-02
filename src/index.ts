@@ -1,5 +1,5 @@
-// export { default as Combo } from './Combo';
-// export { default as ContextMenu } from './ContextMenu';
+export { default as Combo } from './Combo';
+export { default as ContextMenu } from './ContextMenu';
 // export { default as CreateEdge } from './CreateEdge';
 // export { default as EdgeBundling } from './EdgeBundling';
 export { default as FishEye } from './FishEye';
