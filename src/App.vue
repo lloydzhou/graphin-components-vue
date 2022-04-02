@@ -21,8 +21,8 @@
     </ContextMenu>
     <ContextMenu bindType="edge">
       <Menu>
-        <MenuItem :onClick="handleClear">清除</MenuItem>
-        <MenuItem :onClick="handleDownload">编辑</MenuItem>
+        <MenuItem :onClick="handleEdge">清除</MenuItem>
+        <MenuItem :onClick="handleEdge">编辑</MenuItem>
       </Menu>
     </ContextMenu>
     <MiniMap />
@@ -108,6 +108,9 @@ export default class App extends Vue {
   }
   handleDownload(e) {
     console.log('handleDownload', e)
+  }
+  handleEdge(e, item) {
+    console.log('handleEdge', e, item)
   }
 }
 </script>
