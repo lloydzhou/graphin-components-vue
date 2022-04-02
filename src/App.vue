@@ -10,6 +10,7 @@
     <Combo :options="comboOptions" />
     <ContextMenu bindType="canvas">
       <Menu bindType="canvas">
+        <MenuItem :onClick="handleShowFishEye">鱼眼</MenuItem>
         <MenuItem :onClick="handleClear">清除画布</MenuItem>
         <MenuItem :onClick="handleStopLayout">停止布局</MenuItem>
         <MenuItem :onClick="handleDownload">下载画布</MenuItem>
@@ -26,6 +27,7 @@
       </Menu>
     </ContextMenu>
     <MiniMap />
+    <FishEye v-if="showFishEye" :handleEscListener="handleHideFishEye" />
   </Graphin>
 </template>
 
@@ -87,6 +89,8 @@ export default class App extends Vue {
     },
   ]
 
+  showFishEye = false
+
   created() {
     this.data = Utils.mock(10).circle().graphin()
     // this.layout = { type: 'graphin-force' }
@@ -111,6 +115,14 @@ export default class App extends Vue {
   }
   handleEdge(e, item) {
     console.log('handleEdge', e, item)
+  }
+  handleShowFishEye(e) {
+    console.log('handleShowFishEye', e)
+    this.showFishEye = true
+  }
+  handleHideFishEye(e) {
+    console.log('handleHideFishEye', e)
+    this.showFishEye = false
   }
 }
 </script>

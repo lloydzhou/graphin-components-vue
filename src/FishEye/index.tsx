@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { G6, GraphinContext } from 'antv-graphin-vue';
-import { defineComponent, onMounted, onUnmounted } from 'vue';
+import { defineComponent, onMounted, onUnmounted, ref } from 'vue';
 
 const { useContext, contextSymbol } = GraphinContext
 
@@ -68,6 +68,7 @@ const FishEye = defineComponent({
         graph.get('canvas').setCursor('default');
       }
     };
+    const fishEye = ref()
     onMounted(() => {
       const FishEyeOptions = {
         ...defaultOptions,
@@ -86,9 +87,9 @@ const FishEye = defineComponent({
             });
         });
       }
-      const fishEye = new G6.Fisheye(FishEyeOptions);
+      fishEye.value = new G6.Fisheye(FishEyeOptions);
       if (visible) {
-        graph.addPlugin(fishEye);
+        graph.addPlugin(fishEye.value);
         graph.get('canvas').setCursor('zoom-in');
       }
 
@@ -99,7 +100,7 @@ const FishEye = defineComponent({
     onUnmounted(() => {
       if (graph && !graph.destroyed) {
         graph.get('canvas').setCursor('default');
-        graph.removePlugin(fishEye);
+        graph.removePlugin(fishEye.value);
       }
       if (handleEscListener) {
         window.removeEventListener('keydown', escListener);
