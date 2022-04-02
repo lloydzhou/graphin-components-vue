@@ -16,11 +16,11 @@
       </Menu>
     </ContextMenu>
     <ContextMenu>
-      <Menu :options="contextMenu" :onChange="onContextMenuChange" bindType="node">
+      <Menu :options="contextMenu" :onChange="onContextMenuChange">
       </Menu>
     </ContextMenu>
     <ContextMenu bindType="edge">
-      <Menu bindType="edge">
+      <Menu>
         <MenuItem :onClick="handleClear">清除</MenuItem>
         <MenuItem :onClick="handleDownload">编辑</MenuItem>
       </Menu>

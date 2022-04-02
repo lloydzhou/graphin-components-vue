@@ -1,10 +1,19 @@
 // @ts-nocheck
-import { GraphinContext } from 'antv-graphin-vue';
-import { defineComponent } from 'vue';
-
-const { useContext, contextSymbol } = GraphinContext
-
+import { defineComponent, provide, inject } from 'vue';
 import './index.less';
+
+export const menuContextSymbol =  String(Symbol('menuContextSymbol'))
+export const createMenuContext = (context) => {
+  provide(menuContextSymbol, context)
+}
+export const useContext = () => {
+  const context = inject(menuContextSymbol)
+  if (!context) {
+    throw new Error('context must be used after useProvide')
+  }
+  return context
+}
+
 
 export interface MenuProps {
   /**
@@ -40,24 +49,15 @@ const Item = defineComponent({
   props: {
     onClick: {
       type: Function
-    }
+    },
   },
-  inject: [contextSymbol],
+  inject: [menuContextSymbol],
   setup(props, { slots }) {
     const { onClick } = props;
-    const { contextmenu={} } = useContext();
-    const handleClose = () => {
-      onClick && onClick();
-      // 临时方案
-      if (contextmenu.node) {
-        contextmenu.node.handleClose();
-      }
-      if (contextmenu.edge) {
-        contextmenu.edge.handleClose();
-      }
-      if (contextmenu.canvas) {
-        contextmenu.canvas.handleClose();
-      }
+    const { item, handleClose: close } = useContext();
+    const handleClose = (e) => {
+      onClick && onClick(e, item ? item.getModel() : undefined)
+      close && close()
     };
     return () => {
       return (
@@ -71,9 +71,6 @@ const Item = defineComponent({
 const Menu = defineComponent({
   name: 'Menu',
   props: {
-    bindType: {
-      type: String as MenuProps['bindType'],
-    },
     options: {
       type: Object as MenuProps['options'],
     },
@@ -81,30 +78,13 @@ const Menu = defineComponent({
       type: Function as MenuProps['onChange'],
     }
   },
-  inject: [contextSymbol],
+  inject: [menuContextSymbol],
   setup(props, { slots }) {
-    const { bindType = 'node', options, onChange } = props;
-    const { contextmenu={} } = useContext();
+    const { options, onChange } = props;
+    const { item, handleClose: close } = useContext();
     const handleClick = e => {
-      try {
-        let item = null;
-        if (bindType === 'node') {
-          item = contextmenu.node.item.getModel();
-        }
-        if (bindType === 'edge') {
-          item = contextmenu.edge.item.getModel();
-        }
-        if (bindType === 'canvas') {
-          item = null;
-        }
-        if (onChange) {
-          console.log('onChange', e, item)
-          onChange(e, item);
-          contextmenu[bindType].handleClose();
-        }
-      } catch (error) {
-        console.log(error);
-      }
+      onChange && onChange(e, item ? item.getModel() : undefined)
+      close && close()
     };
 
     return () => {
