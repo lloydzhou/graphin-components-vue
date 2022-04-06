@@ -1,10 +1,10 @@
 // @ts-nocheck
 import { GraphinContext } from 'antv-graphin-vue';
-import { defineComponent, onMounted, onUnmounted, CSSProperties, shallowReactive, watch, ref } from 'vue';
+import { defineComponent, onMounted, onUnmounted, CSSProperties, shallowReactive, ref } from 'vue';
 
 const { useContext, contextSymbol } = GraphinContext
 
-import Menu, { createMenuContext } from './Menu';
+import Menu, { createMenuContext, menuContextSymbol, useMenuContext } from './Menu';
 
 interface IG6GraphEvent {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -21,16 +21,6 @@ interface ContextMenuProps {
   // children: React.ReactChildren | JSX.Element;
   style?: CSSProperties;
   bindType?: 'node' | 'edge' | 'canvas';
-}
-
-interface State {
-  /** 当前状态 */
-  visible: boolean;
-  x: number;
-  y: number;
-  /** 触发的元素 */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  item?: IG6GraphEvent['item'];
 }
 
 const ContextMenu = defineComponent({
@@ -153,5 +143,7 @@ const ContextMenu = defineComponent({
 })
 
 ContextMenu.Menu = Menu;
+ContextMenu.useMenuContext = useMenuContext;
+ContextMenu.menuContextSymbol = menuContextSymbol;
 
 export default ContextMenu;

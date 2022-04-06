@@ -6,7 +6,7 @@ export const menuContextSymbol =  String(Symbol('menuContextSymbol'))
 export const createMenuContext = (context) => {
   provide(menuContextSymbol, context)
 }
-export const useContext = () => {
+export const useMenuContext = () => {
   const context = inject(menuContextSymbol)
   if (!context) {
     throw new Error('context must be used after useProvide')
@@ -20,7 +20,7 @@ export interface MenuProps {
    * @description 绑定元素，必选
    * @default node
    */
-  bindType: string;
+  // bindType: string;
   /**
    * @description Menu的配置选项
    */
@@ -54,7 +54,7 @@ const Item = defineComponent({
   inject: [menuContextSymbol],
   setup(props, { slots }) {
     const { onClick } = props;
-    const { item, handleClose: close } = useContext();
+    const { item, handleClose: close } = useMenuContext();
     const handleClose = (e) => {
       onClick && onClick(e, item ? item.getModel() : undefined)
       close && close()
@@ -81,7 +81,7 @@ const Menu = defineComponent({
   inject: [menuContextSymbol],
   setup(props, { slots }) {
     const { options, onChange } = props;
-    const { item, handleClose: close } = useContext();
+    const { item, handleClose: close } = useMenuContext();
     const handleClick = e => {
       onChange && onChange(e, item ? item.getModel() : undefined)
       close && close()
