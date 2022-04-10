@@ -26,6 +26,7 @@
         <MenuItem :onClick="handleEdge">编辑</MenuItem>
       </Menu>
     </ContextMenu>
+    <!-- <EdgeBundling /> -->
     <MiniMap />
     <FishEye v-if="showFishEye" :handleEscListener="handleHideFishEye" />
   </Graphin>
@@ -33,12 +34,14 @@
 
 <script lang="ts">
 // @ts-nocheck
+import G6 from '@antv/g6'
 import { Options, Vue } from 'vue-class-component';
 import Graphin, { Utils, Behaviors } from 'antv-graphin-vue'
 import 'antv-graphin-vue/dist/index.css'
 import {
   Combo,
   ContextMenu,
+  EdgeBundling,
   MiniMap,
   FishEye,
 } from './index'
@@ -53,6 +56,7 @@ const { DragCombo, DragCanvas, ZoomCanvas, DragNode, Hoverable, ActivateRelation
     DragCombo, DragCanvas, ZoomCanvas, DragNode, Hoverable, ActivateRelations, FontPaint,
     Combo,
     ContextMenu, Menu, MenuItem,
+    EdgeBundling,
     MiniMap,
     FishEye,
   },
@@ -93,6 +97,28 @@ export default class App extends Vue {
 
   created() {
     this.data = Utils.mock(10).circle().graphin()
+    const { edges } = this.data
+    this.data.edges = [
+      ...edges.map(edge => {
+        return { ...edge }
+      }),
+      ...edges.map(edge => {
+        return { ...edge }
+      }),
+      ...edges.map(edge => {
+        return { ...edge }
+      }),
+      ...edges.map(edge => {
+        return { ...edge }
+      }),
+      ...edges.map(edge => {
+        return { ...edge }
+      }),
+      ...edges.map(edge => {
+        return { ...edge }
+      }),
+    ]
+    G6.Util.processParallelEdges(this.data.edges);
     // this.layout = { type: 'graphin-force' }
     this.layout = {
       type: 'graphin-force',
